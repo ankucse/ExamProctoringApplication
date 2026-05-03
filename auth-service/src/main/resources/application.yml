@@ -1,0 +1,14 @@
+server:
+  port: 8081 # Unique port per service
+
+spring:
+  application:
+    name: auth-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/exam-auth-db # Logical separation of databases
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

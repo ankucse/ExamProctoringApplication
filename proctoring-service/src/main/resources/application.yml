@@ -1,0 +1,45 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: proctoring-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/exam-proctoring-db
+  kafka:
+    bootstrap-servers: localhost:29092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: ai-detection-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+aws:
+  s3:
+    bucket-name: exam-proctoring-media
+    region: us-east-1
+
+# Resilience configuration for S3 uploads and external AI calls
+resilience4j.retry:
+  instances:
+    mediaStorageRetry:
+      maxAttempts: 3
+      waitDuration: 2s
+
+# Observability - Expose Actuator endpoints for Prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus"
+  tracing:
+    sampling:
+      probability: 1.0 # Trace all requests for debugging

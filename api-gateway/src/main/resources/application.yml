@@ -1,0 +1,57 @@
+server:
+  port: 8080 # Expose Gateway on the standard HTTP port
+
+spring:
+  application:
+    name: api-gateway
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # Enable automatic route discovery based on Eureka registry
+          lower-case-service-id: true
+      routes:
+        - id: auth-service-route
+          uri: lb://auth-service # Route to auth-service using load balancer
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: authCircuitBreaker
+                fallbackUri: forward:/fallback/auth
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@userKeyResolver}"
+
+        - id: exam-service-route
+          uri: lb://exam-service
+          predicates:
+            - Path=/api/exams/**, /api/attempts/**
+
+        - id: proctoring-service-route
+          uri: lb://proctoring-service
+          predicates:
+            - Path=/api/proctoring/**, /ws-proctoring/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+# Resilience4j Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      authCircuitBreaker:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000ms
+        permittedNumberOfCallsInHalfOpenState: 3

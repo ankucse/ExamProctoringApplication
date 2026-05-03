@@ -1,0 +1,20 @@
+server:
+  port: 8761 # Standard Eureka Port
+
+spring:
+  application:
+    name: discovery-server
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false # Don't register itself
+    fetch-registry: false       # Don't fetch from itself
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+logging:
+  level:
+    com.netflix.eureka: INFO
+    com.netflix.discovery: INFO
