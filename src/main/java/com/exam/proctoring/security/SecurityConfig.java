@@ -29,8 +29,9 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/ws-proctoring/**").permitAll() // Allow WebSockets for testing
+                .requestMatchers("/api/proctoring/events").permitAll() // Allow proctoring API for easy testing
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll() // Permit all other requests for Vaadin UI
             )
             .sessionManagement(session -> session

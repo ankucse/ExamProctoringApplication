@@ -21,7 +21,6 @@ logging:
   level:
     root: INFO
     com.exam.proctoring: DEBUG
-    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
 vaadin:
   productionMode: false
