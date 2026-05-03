@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+:host {
+    --lumo-font-family: 'Inter', sans-serif;
+}
+
+.proctor-dashboard {
+    padding: 1rem;
+}
+
+.dashboard-title {
+    margin: 0;
+    font-size: var(--lumo-font-size-xxl);
+}
+
+.attempt-id-span {
+    color: var(--lumo-secondary-text-color);
+    font-size: var(--lumo-font-size-s);
+    margin-bottom: 1rem;
+}
+
+.event-grid {
+    background-color: var(--lumo-base-color);
+    border: 1px solid var(--lumo-shade-10pct);
+    border-radius: var(--lumo-border-radius-l);
+}
+
+.student-exam-view {
+    background: radial-gradient(circle, rgba(35,37,46,1) 0%, rgba(28,28,28,1) 100%);
+}
+
+.exam-card {
+    background-color: var(--lumo-base-color);
+    border-radius: var(--lumo-border-radius-l);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid var(--lumo-shade-10pct);
+}
+
+.warning-banner {
+    background-color: var(--lumo-shade-5pct);
+    color: var(--lumo-secondary-text-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--lumo-border-radius-m);
+    font-size: var(--lumo-font-size-s);
+    gap: 0.5rem;
+}
